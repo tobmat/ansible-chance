@@ -1,0 +1,25 @@
+Future enhancements:
+
+- Build in private VPC
+- Add auto-scaling group / build instances across multiple AZs
+- Add application load balancer
+- Register Domain to route53
+- Add SSL cert
+- Build EC2 instances on private network
+  - Build linux jump to run ansible playbooks, use role-based access instead of aws keys
+- Work with developers to build CI/CD pipeline
+- Determine best plan to handle monitoring, logging and alerting
+
+Ansible enhancements:
+- Create vault file for aws creds if still needed
+- Make all steps idempotent 
+- Make code reusable for multiple apps
+- cleanup role tasks
+  - use with_items for repetitve modules
+  - replace hard-coded items with variables 
+- create tasks to tear-down infra
+
+Other considerations based on app requirements:
+- Build app using Elastic Beanstalk
+- Build app using Lambda 
+- Bake initial configuration steps into image to speed up deployment

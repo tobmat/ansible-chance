@@ -10,5 +10,5 @@
   gather_facts: no
   tasks:
      - include_role:
-          name: ec2
+          name: deploy
           tasks_from: deploy

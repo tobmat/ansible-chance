@@ -1,5 +1,5 @@
 ---
-- name: Create EC2 instance
+- name: build chance infra
   hosts: localhost
   gather_facts: no
   vars: 
@@ -7,6 +7,11 @@
   tasks:
      - include_vars: "roles/ec2/vars/creds.yml"
      - include_vars: "roles/ec2/vars/env_dev.yml"
+     - include_vars: "roles/ec2/vars/sg_chance.yml"
+     - include_role:
+          name: ec2
+          tasks_from: save_security_groups
+
      - include_role:
           name: ec2
           tasks_from: create_ec2_instances

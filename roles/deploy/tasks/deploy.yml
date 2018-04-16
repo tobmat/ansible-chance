@@ -18,7 +18,8 @@
   become: true
 
 - git:
-    repo: 'https://github.com/zylo/chance.git'
+    #repo: 'https://github.com/zylo/chance.git'
+    repo: "{{ git_repo }}"
     dest: /home/ubuntu/chance
     version: master
 

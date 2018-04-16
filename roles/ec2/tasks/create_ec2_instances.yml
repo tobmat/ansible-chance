@@ -20,7 +20,7 @@
     count: 1
     user_data: "{{ lookup('file', 'user_data.sh') }}"
     instance_tags:
-       Name: chance3
+       Name: "{{ instance_name }}"
     monitoring: no
     vpc_subnet_id: subnet-5103031c
     assign_public_ip: yes

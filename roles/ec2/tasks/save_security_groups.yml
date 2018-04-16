@@ -1,0 +1,11 @@
+- name: Create or Update EC2 security groups
+  ec2_group:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    vpc_id: "{{ item.vpc_id }}"
+    region: "{{ item.region }}"
+    state: present
+    rules: "{{ item.rules }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+  with_items: "{{ aws_security_groups }}"

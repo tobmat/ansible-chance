@@ -1,0 +1,106 @@
+- name: Install the package "nodejs-legacy"
+  apt:
+    name: nodejs-legacy
+    state: present
+  become: true
+
+- name: Install the package "npm"
+  apt:
+    name: npm
+    state: present
+  become: true
+
+
+- name: Install the package "nginx"
+  apt:
+    name: nginx
+    state: present
+  become: true
+
+- git:
+    repo: 'https://github.com/zylo/chance.git'
+    dest: /home/ubuntu/chance
+    version: master
+
+- name: Install "swagger" node.js package globally.
+  npm:
+    name: swagger
+    global: yes
+  become: true
+
+- name: Install "eslint" node.js package globally.
+  npm:
+    name: eslint
+    global: yes
+  become: true
+
+- name: Install "mocha" node.js package globally.
+  npm:
+    name: mocha
+    global: yes
+  become: true
+
+- name: Install "pm2" node.js package globally.
+  npm:
+    name: pm2
+    global: yes
+  become: true
+
+#- name: Update packages based on package.json to their latest version.
+#  npm:
+#    path: /home/ubuntu/chance
+#    state: latest
+#  become: true
+
+- name: npm install
+  command: "npm install"
+  args:
+     chdir: /home/ubuntu/chance
+  become: true
+
+- name: copy nginx config
+  copy:
+    src: chance
+    dest: /etc/nginx/sites-available/chance
+    owner: root
+    group: root
+    mode: u+rw,g+r,o+r
+  become: true
+  notify: restart nginx
+
+- name: Create symlink to /etc/nginx/sites-available/chance 
+  file: 
+    src: /etc/nginx/sites-available/chance
+    dest: /etc/nginx/sites-enabled/chance 
+    state: link
+  become: true
+  notify: restart nginx
+
+- name: copy swagger file
+  copy:
+    src: swagger.yaml
+    dest: /home/ubuntu/chance/api/swagger/swagger.yaml
+    owner: ubuntu
+    group: ubuntu
+    mode: u+rw,g+r,o+r
+
+- name: Ansible delete nginx default config
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  become: true
+
+- name: Start pm2
+  command: "pm2 start app.js --name chance-app"
+  args:
+     chdir: /home/ubuntu/chance
+  become: true
+
+- name: pm2 startup
+  command: "pm2 startup"
+  become: true
+
+- name: pm2 save
+  command: "pm2 save"
+  become: true
+

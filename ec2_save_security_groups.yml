@@ -1,0 +1,17 @@
+---
+# Create or Update Security Groups
+# sg_var contains security group values to build security group, example sg_tower.yml
+# {{ vpc_id }}.yml var contains cidr values for security groups based on VPC
+# prefix security group names to match use. examples ec2_, elb_, rds_
+# example:  ansible-playbook ec2_save_security_group.yml -e region=us-east-2 -e vpc_id= -e sg_var=sg_nuage_nsg
+
+- name: Create or Update Security Groups
+  hosts: localhost
+  gather_facts: no
+  tasks:
+     - include_vars: "roles/ec2/vars/creds.yml"
+     - include_vars: "roles/ec2/vars/env_dev.yml"
+     - include_vars: "roles/ec2/vars/sg_chance.yml"
+     - include_role:
+          name: ec2
+          tasks_from: save_security_groups

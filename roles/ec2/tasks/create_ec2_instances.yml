@@ -1,0 +1,32 @@
+#- name: Create or Update EC2 security groups
+#  ec2_group:
+#    name: "{{ item.name }}"
+#    description: "{{ item.description }}"
+#    vpc_id: "{{ item.vpc_id }}"
+#    region: "{{ item.region }}"
+#    state: present
+#    rules: "{{ item.rules }}"
+#    aws_access_key: "{{ aws_access_key }}"
+#    aws_secret_key: "{{ aws_secret_key }}"
+#  with_items: "{{ aws_security_groups }}"
+
+- name: Build EC2 instance
+  ec2:
+    key_name: toby
+    instance_type: t2.micro
+    image: ami-916f59f4
+    wait: yes
+    wait_timeout: 500
+    count: 1
+    user_data: "{{ lookup('file', 'user_data.sh') }}"
+    instance_tags:
+       Name: chance3
+    monitoring: no
+    vpc_subnet_id: subnet-5103031c
+    assign_public_ip: yes
+    group: ec2-chance
+    region: "{{ region }}"
+    aws_access_key: "{{ aws_access_key }}"
+    aws_secret_key: "{{ aws_secret_key }}"
+  register: ec2
+# with_items: "{{ aws_security_groups }}"

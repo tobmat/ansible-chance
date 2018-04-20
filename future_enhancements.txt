@@ -22,4 +22,5 @@ Ansible enhancements:
 Other considerations based on app requirements:
 - Build app using Elastic Beanstalk
 - Build app using Lambda 
+- Build app / nginx in containers
 - Bake initial configuration steps into image to speed up deployment
